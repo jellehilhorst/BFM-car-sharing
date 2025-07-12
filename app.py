@@ -85,6 +85,9 @@ elif st.session_state.step == 3:
         refuel = st.number_input("Refuel cost (€)", step=0.5)
         note = st.text_area("Note (optional)")
         submitted = st.form_submit_button("Submit Trip")
+
+        if driven_km > 0:
+            st.write(f"Drive cost: €{driven_km * km_rate:.2f}")
         
 
         if submitted:
