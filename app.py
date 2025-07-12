@@ -92,9 +92,7 @@ elif st.session_state.step == 3:
             km_rate = member_rate if is_member == "Yes" else non_member_rate
             extra_fee = 0 if is_member == "Yes" else non_member_fee
             total = round(driven_km * km_rate + refuel + extra_fee, 2)
-            st.write(f"KM rate: €{km_rate:.2f}")
-            st.write(f"KM driven: {driven_km}")
-            st.write(f"Total cost: €{total:.2f}")
+            
 
             new_entry = {
                 "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -153,6 +151,7 @@ if not df.empty:
         )
         .reset_index()
     )
+
 
     # Format columns: Total_KM as integer, costs/fees as money
     styled_overview = overview.style.format({
