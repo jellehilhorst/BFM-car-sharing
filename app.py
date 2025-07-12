@@ -90,10 +90,24 @@ if submitted:
         "Extra Fee": extra_fee,
         "Total": total,
         "Note": note
-
     }
     sheet.append_row(list(new_entry.values()))
     st.success(f"Trip saved! Total cost: €{total}")
+
+    st.info("What would you like to do next?")
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Add another trip"):
+            st.session_state.step = 1
+            st.experimental_rerun()
+    with col2:
+        if st.button("Delete previous entry"):
+            # Find the last row (assuming the new entry is last)
+            last_row = len(sheet.get_all_values())
+            sheet.delete_rows(last_row)
+            st.success("Previous entry deleted.")
+            st.session_state.step = 1
+            st.experimental_rerun()
 
 if not df.empty:
     st.subheader("📋 Trip History")
