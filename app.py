@@ -11,8 +11,8 @@ if os.path.exists(file_path):
     df = pd.read_csv(file_path)
 else:
     df = pd.DataFrame(columns=[
-        "Date", "Name", "Driven km", "Refuel", "Member", 
-        "KM Rate", "Extra Fee", "Total"
+        "Date", "Trip Date", "Name", "Driven km", "Refuel", "Member", 
+        "KM Rate", "Extra Fee", "Total", "Note"
     ])
 
 # Pricing (you can update these)
@@ -66,13 +66,16 @@ if submitted:
 
     new_entry = {
         "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "Trip Date": trip_date.strftime("%Y-%m-%d"),
         "Name": name,
         "Driven km": driven_km,
         "Refuel": refuel,
         "Member": is_member,
         "KM Rate": km_rate,
         "Extra Fee": extra_fee,
-        "Total": total
+        "Total": total,
+        "Note": note
+
     }
     df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
     df.to_csv(file_path, index=False)
