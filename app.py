@@ -39,6 +39,7 @@ non_member_fee = 5.00
 st.title("🚗 Car Sharing Log")
 
 submitted = False
+total = 'something went wrong...'
 
 if "step" not in st.session_state:
     st.session_state.step = 1
@@ -65,6 +66,7 @@ elif st.session_state.step == 2:
             st.session_state.name = name
             st.session_state.step = 3
             st.rerun()
+
 
 elif st.session_state.step == 3:
     with st.form("trip_form"):
@@ -97,31 +99,28 @@ elif st.session_state.step == 3:
             
             st.session_state.step = 4
             st.rerun()
-            st.success(f"Trip saved! Total cost: €{total}")
+            
 
 
         
 
 elif st.session_state.step == 4:
-    
+    st.success(f"Trip saved! Total cost: €{total}")
     st.info("What would you like to do next?")
+    show_delete = True
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Add another trip"):
             st.session_state.step = 1
             st.rerun()
     with col2:
-        if "show_delete" not in st.session_state:
-            st.session_state.show_delete = True
-
-        if st.session_state.show_delete:
+        if show_delete:
             if st.button("Delete previous entry"):
                 # Find the last row (assuming the new entry is last)
                 last_row = len(sheet.get_all_values())
                 sheet.delete_rows(last_row)
                 st.success("Previous entry deleted.")
-                st.session_state.step = 1
-                st.session_state.show_delete = False  # Hide the button after deletion
+                show_delete = False  # Hide the button after deletion
                 st.rerun()
 
 if not df.empty:
@@ -130,11 +129,14 @@ if not df.empty:
 
     if not df.empty:
         st.subheader("🔎 Member Overview")
+        # Sort df by Trip Date before grouping
+        df_sorted = df.sort_values(by="Date", ascending=False)
+
         overview = (
-            df.groupby("Name")
+            df_sorted.groupby("Name")
             .agg(
             Total_KM=("Driven km", "sum"),
-            Driving_Cost=("Driven km", lambda x: round((df.loc[x.index, "KM Rate"] * x).sum(), 2)),
+            Driving_Cost=("Driven km", lambda x: round((df_sorted.loc[x.index, "KM Rate"] * x).sum(), 2)),
             Refuel_Cost=("Refuel", "sum"),
             Extra_Fees=("Extra Fee", "sum"),
             Total_Balance=("Total", "sum"),
