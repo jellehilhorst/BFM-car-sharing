@@ -145,29 +145,26 @@ if not df.empty:
     overview = (
         df.groupby("Name")
         .agg(
-            Total_KM=("Driven km", "sum"),
-            Driving_Cost=("Driven km", lambda x: round((df.loc[x.index, "KM Rate"] * x).sum(), 2)),
-            Refuel_Cost=("Refuel", "sum"),
-            Extra_Fees=("Extra Fee", "sum"),
-            Total_Balance=("Total", "sum"),
+            **{
+                "Driven km": ("Driven km", "sum"),
+                "Driving cost": ("Driven km", lambda x: round((df.loc[x.index, "KM Rate"] * x).sum(), 2)),
+                "Refuel cost": ("Refuel", "sum"),
+                "Extra fees": ("Extra Fee", "sum"),
+                "Total balance": ("Total", "sum"),
+            }
         )
         .reset_index()
     )
 
-    # Format cost columns as money
-    # for col in ["Driving_Cost", "Refuel_Cost", "Extra_Fees", "Total_Balance"]:
-    #     overview[col] = overview[col].apply(lambda x: f"€{x:.2f}")
-
-
-    # Format columns: Total_KM as integer, costs/fees as money
+    # Format columns: Driven km as integer, costs/fees as money
     styled_overview = overview.style.format({
-        "Total_KM": "{:.0f}",
-        "Driving_Cost": "€{:.2f}",
-        "Refuel_Cost": "€{:.2f}",
-        "Extra_Fees": "€{:.2f}",
-        "Total_Balance": "€{:.2f}"
+        "Driven km": "{:.0f}",
+        "Driving cost": "€{:.2f}",
+        "Refuel cost": "€{:.2f}",
+        "Extra fees": "€{:.2f}",
+        "Total balance": "€{:.2f}"
     }).highlight_between(
-        subset=["Total_Balance"], left=0, right=None, color="#F0F2F6"
+        subset=["Total balance"], left=0, right=None, color="#F0F2F6"
     )
 
     # Show dataframe with Name column pinned (Streamlit 1.29+)
