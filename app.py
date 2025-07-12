@@ -111,7 +111,7 @@ elif st.session_state.step == 3:
             sheet.append_row(list(new_entry.values()))
             
             st.session_state.step = 4
-            # Remove st.rerun() to prevent infinite loop
+            st.rerun()
             
 
 
