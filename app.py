@@ -126,14 +126,13 @@ elif st.session_state.step == 4:
 if not df.empty:
     # overview
     st.subheader("🔎 Member Overview")
-    # Sort df by Trip Date before grouping
-    df
+    
 
     overview = (
         df.groupby("Name")
         .agg(
         Total_KM=("Driven km", "sum"),
-        Driving_Cost=("Driven km", lambda x: round((df_sorted.loc[x.index, "KM Rate"] * x).sum(), 2)),
+        Driving_Cost=("Driven km", lambda x: round((df.loc[x.index, "KM Rate"] * x).sum(), 2)),
         Refuel_Cost=("Refuel", "sum"),
         Extra_Fees=("Extra Fee", "sum"),
         Total_Balance=("Total", "sum"),
@@ -157,5 +156,5 @@ if not df.empty:
 
     # history
     st.subheader("📋 Trip History")
-    df_sorted = df.sort_values(by="Date", ascending=False)
-    st.dataframe(df_sorted)
+    df = df.sort_values(by="Date", ascending=False)
+    st.dataframe(df)
