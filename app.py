@@ -110,7 +110,7 @@ elif st.session_state.step == 3:
             }
             sheet.append_row(list(new_entry.values()))
             
-            st.session_state.step = 4
+            # st.session_state.step = 4
             st.rerun()
             st.success(f"Trip saved! Total cost: €{total}")
             
