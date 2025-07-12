@@ -155,8 +155,8 @@ if not df.empty:
     )
 
     # Format cost columns as money
-    for col in ["Driving_Cost", "Refuel_Cost", "Extra_Fees", "Total_Balance"]:
-        overview[col] = overview[col].apply(lambda x: f"€{x:.2f}")
+    # for col in ["Driving_Cost", "Refuel_Cost", "Extra_Fees", "Total_Balance"]:
+    #     overview[col] = overview[col].apply(lambda x: f"€{x:.2f}")
 
 
     # Format columns: Total_KM as integer, costs/fees as money
@@ -179,6 +179,6 @@ if not df.empty:
     st.dataframe(df)
 
     # Maintenance pot: sum of all members' balances
-    maintenance_pot = -overview["Total_Balance"][1:].sum()
+    maintenance_pot = -overview["Total_Balance"].sum()
     st.subheader("🛠️ Maintenance Pot")
     st.info(f"Total maintenance pot: €{maintenance_pot:.2f}")
