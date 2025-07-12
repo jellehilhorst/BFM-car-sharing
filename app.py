@@ -39,6 +39,8 @@ non_member_fee = 5.00
 # UI
 st.title("🚗 Car Sharing Log")
 
+st.subheader("Fill in your trip details below")
+
 submitted = False
 total = 'something went wrong...'
 
