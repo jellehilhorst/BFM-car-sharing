@@ -101,17 +101,18 @@ if submitted:
             st.session_state.step = 1
             st.experimental_rerun()
     with col2:
-        if st.button("Delete previous entry"):
-            # Find the last row (assuming the new entry is last)
-            last_row = len(sheet.get_all_values())
-            sheet.delete_rows(last_row)
-            st.success("Previous entry deleted.")
-            st.session_state.step = 1
-            st.session_state.show_delete = False  # Hide the button after deletion
-            st.experimental_rerun()
-        elif "show_delete" not in st.session_state or st.session_state.show_delete:
+        if "show_delete" not in st.session_state:
             st.session_state.show_delete = True
-            st.button("Delete previous entry")
+
+        if st.session_state.show_delete:
+            if st.button("Delete previous entry"):
+                # Find the last row (assuming the new entry is last)
+                last_row = len(sheet.get_all_values())
+                sheet.delete_rows(last_row)
+                st.success("Previous entry deleted.")
+                st.session_state.step = 1
+                st.session_state.show_delete = False  # Hide the button after deletion
+                st.experimental_rerun()
 
 if not df.empty:
     st.subheader("📋 Trip History")
