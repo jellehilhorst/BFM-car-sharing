@@ -176,6 +176,6 @@ if not df.empty:
     st.dataframe(df)
 
     # Maintenance pot: sum of all members' balances
-    maintenance_pot = -overview["Total_Balance"].sum()
+    maintenance_pot = -overview["Total balance"].sum()
     st.subheader("🛠️ Maintenance Pot")
     st.info(f"Total maintenance pot: €{maintenance_pot:.2f}")
