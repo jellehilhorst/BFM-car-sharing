@@ -82,6 +82,8 @@ elif st.session_state.step == 3:
         name = st.session_state.name
         trip_date = st.date_input("Date of trip", value=datetime.date.today())
         driven_km = st.number_input("Driven km", step=1)
+        if driven_km > 0:
+            st.info(f"Driving cost: €{driven_km * km_rate:.2f}")
         refuel = st.number_input("Refuel cost (€)", step=0.5)
         note = st.text_area("Note (optional)")
         submitted = st.form_submit_button("Submit Trip")
