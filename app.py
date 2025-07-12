@@ -92,8 +92,15 @@ if submitted:
         "Note": note
     }
     sheet.append_row(list(new_entry.values()))
+    
+    st.session_state.step = 4
     st.success(f"Trip saved! Total cost: €{total}")
 
+
+        
+
+if st.session_state.step == 4:
+    
     st.info("What would you like to do next?")
     col1, col2 = st.columns(2)
     with col1:
