@@ -89,7 +89,7 @@ elif st.session_state.step == 3:
         if driven_km > 0:
             st.write(f"Drive cost: €{driven_km * km_rate:.2f}")
         
-
+        st.rerun()
         if submitted:
             is_member = st.session_state.is_member
             km_rate = member_rate if is_member == "Yes" else non_member_rate
