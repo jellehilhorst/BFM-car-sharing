@@ -55,7 +55,7 @@ if st.session_state.step == 1:
                 st.session_state.name = selected_name
                 st.session_state.is_member = "Yes"
                 st.session_state.step = 3
-            st.experimental_rerun()
+            st.rerun()
 
 elif st.session_state.step == 2:
     with st.form("other_name_form"):
@@ -64,7 +64,7 @@ elif st.session_state.step == 2:
         if next_step and name:
             st.session_state.name = name
             st.session_state.step = 3
-            st.experimental_rerun()
+            st.rerun()
 
 elif st.session_state.step == 3:
     with st.form("trip_form"):
@@ -96,7 +96,7 @@ elif st.session_state.step == 3:
             sheet.append_row(list(new_entry.values()))
             
             st.session_state.step = 4
-            st.experimental_rerun()
+            st.rerun()
             st.success(f"Trip saved! Total cost: €{total}")
 
 
@@ -109,7 +109,7 @@ elif st.session_state.step == 4:
     with col1:
         if st.button("Add another trip"):
             st.session_state.step = 1
-            st.experimental_rerun()
+            st.rerun()
     with col2:
         if "show_delete" not in st.session_state:
             st.session_state.show_delete = True
@@ -122,7 +122,7 @@ elif st.session_state.step == 4:
                 st.success("Previous entry deleted.")
                 st.session_state.step = 1
                 st.session_state.show_delete = False  # Hide the button after deletion
-                st.experimental_rerun()
+                st.rerun()
 
 if not df.empty:
     st.subheader("📋 Trip History")
