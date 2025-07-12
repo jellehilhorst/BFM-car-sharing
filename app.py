@@ -70,6 +70,12 @@ elif st.session_state.step == 2:
 
 elif st.session_state.step == 3:
     with st.form("trip_form"):
+        #   message with cost for memeber
+        is_member = st.session_state.is_member
+        km_rate = member_rate if is_member == "Yes" else non_member_rate
+        extra_fee = 0 if is_member == "Yes" else non_member_fee
+        st.info(f"KM cost: €{km_rate:.2f} per km. Extra fee: €{extra_fee:.2f}")
+        
         name = st.session_state.name
         trip_date = st.date_input("Date of trip", value=datetime.date.today())
         driven_km = st.number_input("Driven km", step=1)
