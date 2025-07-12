@@ -73,28 +73,28 @@ elif st.session_state.step == 3:
         note = st.text_area("Note (optional)")
         submitted = st.form_submit_button("Submit Trip")
 
-if submitted:
-    is_member = st.session_state.is_member
-    km_rate = member_rate if is_member == "Yes" else non_member_rate
-    extra_fee = 0 if is_member == "Yes" else non_member_fee
-    total = round(driven_km * km_rate + refuel + extra_fee, 2)
+        if submitted:
+            is_member = st.session_state.is_member
+            km_rate = member_rate if is_member == "Yes" else non_member_rate
+            extra_fee = 0 if is_member == "Yes" else non_member_fee
+            total = round(driven_km * km_rate + refuel + extra_fee, 2)
 
-    new_entry = {
-        "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "Trip Date": trip_date.strftime("%Y-%m-%d"),
-        "Name": name,
-        "Driven km": driven_km,
-        "Refuel": refuel,
-        "Member": is_member,
-        "KM Rate": km_rate,
-        "Extra Fee": extra_fee,
-        "Total": total,
-        "Note": note
-    }
-    sheet.append_row(list(new_entry.values()))
-    
-    st.session_state.step = 4
-    st.success(f"Trip saved! Total cost: €{total}")
+            new_entry = {
+                "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+                "Trip Date": trip_date.strftime("%Y-%m-%d"),
+                "Name": name,
+                "Driven km": driven_km,
+                "Refuel": refuel,
+                "Member": is_member,
+                "KM Rate": km_rate,
+                "Extra Fee": extra_fee,
+                "Total": total,
+                "Note": note
+            }
+            sheet.append_row(list(new_entry.values()))
+            
+            st.session_state.step = 4
+            st.success(f"Trip saved! Total cost: €{total}")
 
 
         
