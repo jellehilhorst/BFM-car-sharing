@@ -8,6 +8,7 @@ from google.oauth2.service_account import Credentials
 
 
 import json
+import pytz
 
 # Google Sheets setup
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -96,8 +97,10 @@ elif st.session_state.step == 3:
             extra_fee = 0 if is_member == "Yes" else non_member_fee
             total = round(driven_km * -km_rate + refuel + -extra_fee, 2)
 
+            amsterdam_tz = pytz.timezone("Europe/Amsterdam")
+            now_amsterdam = datetime.datetime.now(amsterdam_tz)
             new_entry = {
-                "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+                "Date": now_amsterdam.strftime("%Y-%m-%d %H:%M"),
                 "Trip Date": trip_date.strftime("%Y-%m-%d"),
                 "Name": name,
                 "Driven km": driven_km,
