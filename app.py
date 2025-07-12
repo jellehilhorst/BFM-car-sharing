@@ -88,7 +88,7 @@ elif st.session_state.step == 3:
 
         
         
-        st.rerun()
+        
         if submitted:
             is_member = st.session_state.is_member
             km_rate = member_rate if is_member == "Yes" else non_member_rate
