@@ -90,7 +90,7 @@ elif st.session_state.step == 3:
             is_member = st.session_state.is_member
             km_rate = member_rate if is_member == "Yes" else non_member_rate
             extra_fee = 0 if is_member == "Yes" else non_member_fee
-            total = round(driven_km * km_rate + refuel + extra_fee, 2)
+            total = round(driven_km * -km_rate + refuel - extra_fee, 2)
 
             new_entry = {
                 "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
