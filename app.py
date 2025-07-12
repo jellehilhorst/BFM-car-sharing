@@ -85,12 +85,16 @@ elif st.session_state.step == 3:
         refuel = st.number_input("Refuel cost (€)", step=0.5)
         note = st.text_area("Note (optional)")
         submitted = st.form_submit_button("Submit Trip")
+        
 
         if submitted:
             is_member = st.session_state.is_member
             km_rate = member_rate if is_member == "Yes" else non_member_rate
             extra_fee = 0 if is_member == "Yes" else non_member_fee
-            total = round(driven_km * -km_rate + refuel - extra_fee, 2)
+            total = round(driven_km * km_rate + refuel + extra_fee, 2)
+            st.write(f"KM rate: €{km_rate:.2f}")
+            st.write(f"KM driven: {driven_km}")
+            st.write(f"Total cost: €{total:.2f}")
 
             new_entry = {
                 "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -108,6 +112,7 @@ elif st.session_state.step == 3:
             
             st.session_state.step = 4
             st.rerun()
+            st.success(f"Trip saved! Total cost: €{total}")
             
 
 
