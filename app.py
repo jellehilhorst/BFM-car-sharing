@@ -74,7 +74,10 @@ elif st.session_state.step == 3:
         is_member = st.session_state.is_member
         km_rate = member_rate if is_member == "Yes" else non_member_rate
         extra_fee = 0 if is_member == "Yes" else non_member_fee
-        st.info(f"KM cost: €{km_rate:.2f} per km. Extra fee: €{extra_fee:.2f}")
+        if extra_fee > 0:
+            st.info(f"KM cost: €{km_rate:.2f} per km. Extra fee: €{extra_fee:.2f}")
+        else:
+            st.info(f"KM cost: €{km_rate:.2f} per km.")
         
         name = st.session_state.name
         trip_date = st.date_input("Date of trip", value=datetime.date.today())
@@ -164,3 +167,8 @@ if not df.empty:
     st.subheader("📋 Trip History")
     df = df.sort_values(by="Date", ascending=False)
     st.dataframe(df)
+
+    # Maintenance pot: sum of all members' balances
+    maintenance_pot = -overview["Total_Balance"].sum()
+    st.subheader("🛠️ Maintenance Pot")
+    st.info(f"Total maintenance pot: €{maintenance_pot:.2f}")
