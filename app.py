@@ -171,7 +171,7 @@ if not df.empty:
     # )
 
     # Show dataframe with Name column pinned (Streamlit 1.29+)
-    st.dataframe(overviewa, column_config={"Name": st.column_config.Column("Name", pinned=True)})
+    st.dataframe(overview, column_config={"Name": st.column_config.Column("Name", pinned=True)})
 
     # history
     st.subheader("📋 Trip History")
