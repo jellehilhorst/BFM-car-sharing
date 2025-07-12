@@ -24,10 +24,39 @@ st.title("🚗 Car Sharing Log")
 with st.form("trip_form"):
     name_options = ["Anele", "Carlo", "Amber", "Romain", "Tjark", "Other"]
     selected_name = st.selectbox("Name", name_options)
-    if selected_name == "Other":
+    next_step = st.form_submit_button("Next")
+
+if "step" not in st.session_state:
+    st.session_state.step = 1
+
+if st.session_state.step == 1:
+    with st.form("name_form"):
+        name_options = ["Anele", "Carlo", "Amber", "Romain", "Tjark", "Other"]
+        selected_name = st.selectbox("Name", name_options)
+        next_step = st.form_submit_button("Next")
+        if next_step:
+            if selected_name == "Other":
+                st.session_state.step = 2
+            else:
+                st.session_state.name = selected_name
+                st.session_state.step = 3
+
+elif st.session_state.step == 2:
+    with st.form("other_name_form"):
         name = st.text_input("Enter a different name")
-    else:
-        name = selected_name
+        next_step = st.form_submit_button("Next")
+        if next_step and name:
+            st.session_state.name = name
+            st.session_state.step = 3
+
+elif st.session_state.step == 3:
+    with st.form("trip_form"):
+        name = st.session_state.name
+        start_km = st.number_input("Start km", step=1)
+        end_km = st.number_input("End km", step=1)
+        refuel = st.number_input("Refuel cost (€)", step=0.5)
+        is_member = st.radio("Are you a member?", ["Yes", "No"])
+        submitted = st.form_submit_button("Submit Trip")
     start_km = st.number_input("Start km", step=1)
     end_km = st.number_input("End km", step=1)
     refuel = st.number_input("Refuel cost (€)", step=0.5)
