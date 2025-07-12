@@ -3,6 +3,8 @@ import pandas as pd
 import datetime
 import os
 
+names = ["Anelle", "Carlo", "Amber", "Romain", "Tjark", "Other"]
+
 # Load trip data
 file_path = "trips.csv"
 if os.path.exists(file_path):
@@ -21,18 +23,17 @@ non_member_fee = 5.00
 # UI
 st.title("🚗 Car Sharing Log")
 
-with st.form("trip_form"):
-    name_options = ["Anele", "Carlo", "Amber", "Romain", "Tjark", "Other"]
-    selected_name = st.selectbox("Name", name_options)
-    next_step = st.form_submit_button("Next")
+# with st.form("trip_form"):
+    
+#     selected_name = st.selectbox("Name", names)
+#     next_step = st.form_submit_button("Next")
 
 if "step" not in st.session_state:
     st.session_state.step = 1
 
 if st.session_state.step == 1:
     with st.form("name_form"):
-        name_options = ["Anele", "Carlo", "Amber", "Romain", "Tjark", "Other"]
-        selected_name = st.selectbox("Name", name_options)
+        selected_name = st.selectbox("Name", names)
         next_step = st.form_submit_button("Next")
         if next_step:
             if selected_name == "Other":
