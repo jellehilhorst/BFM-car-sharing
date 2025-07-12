@@ -87,7 +87,7 @@ elif st.session_state.step == 3:
         submitted = st.form_submit_button("Submit Trip")
 
         if driven_km > 0:
-            st.write(f"Drive cost: €{driven_km * km_rate:.2f}")
+            st.info(f"Drive cost: €{driven_km * km_rate:.2f}")
         
         st.rerun()
         if submitted:
