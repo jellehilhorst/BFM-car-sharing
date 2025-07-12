@@ -90,12 +90,19 @@ if not df.empty:
         overview = (
             df.groupby("Name")
             .agg(
-                Total_KM=("Driven km", "sum"),
-                Driving_Cost=("Driven km", lambda x: round((df.loc[x.index, "KM Rate"] * x).sum(), 2)),
-                Refuel_Cost=("Refuel", "sum"),
-                Extra_Fees=("Extra Fee", "sum"),
-                Total_Balance=("Total", "sum"),
+            Total_KM=("Driven km", "sum"),
+            Driving_Cost=("Driven km", lambda x: round((df.loc[x.index, "KM Rate"] * x).sum(), 2)),
+            Refuel_Cost=("Refuel", "sum"),
+            Extra_Fees=("Extra Fee", "sum"),
+            Total_Balance=("Total", "sum"),
             )
             .reset_index()
         )
+
+        # Highlight the 'Total_Balance' column using Streamlit's styling
+        styled_overview = overview.style.highlight_between(
+            subset=["Total_Balance"], left=0, right=None, color="#ffe066"
+        ).format({"Total_Balance": "€{:.2f}"})
+
+        st.dataframe(styled_overview)
         st.dataframe(overview)
