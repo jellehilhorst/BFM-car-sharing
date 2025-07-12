@@ -55,6 +55,7 @@ if st.session_state.step == 1:
                 st.session_state.name = selected_name
                 st.session_state.is_member = "Yes"
                 st.session_state.step = 3
+            st.experimental_rerun()
 
 elif st.session_state.step == 2:
     with st.form("other_name_form"):
@@ -63,6 +64,7 @@ elif st.session_state.step == 2:
         if next_step and name:
             st.session_state.name = name
             st.session_state.step = 3
+            st.experimental_rerun()
 
 elif st.session_state.step == 3:
     with st.form("trip_form"):
@@ -94,6 +96,7 @@ elif st.session_state.step == 3:
             sheet.append_row(list(new_entry.values()))
             
             st.session_state.step = 4
+            st.experimental_rerun()
             st.success(f"Trip saved! Total cost: €{total}")
 
 
