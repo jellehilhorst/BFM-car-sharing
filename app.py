@@ -27,6 +27,7 @@ st.title("🚗 Car Sharing Log")
     
 #     selected_name = st.selectbox("Name", names)
 #     next_step = st.form_submit_button("Next")
+submitted = False
 
 if "step" not in st.session_state:
     st.session_state.step = 1
