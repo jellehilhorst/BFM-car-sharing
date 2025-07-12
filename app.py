@@ -22,7 +22,12 @@ non_member_fee = 5.00
 st.title("🚗 Car Sharing Log")
 
 with st.form("trip_form"):
-    name = st.text_input("Name")
+    name_options = ["Anele", "Carlo", "Amber", "Romain", "Tjark", "Other"]
+    selected_name = st.selectbox("Name", name_options)
+    if selected_name == "Other":
+        name = st.text_input("Enter a different name")
+    else:
+        name = selected_name
     start_km = st.number_input("Start km", step=1)
     end_km = st.number_input("End km", step=1)
     refuel = st.number_input("Refuel cost (€)", step=0.5)
