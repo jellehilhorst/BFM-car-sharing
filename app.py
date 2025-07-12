@@ -2,18 +2,26 @@ import streamlit as st
 import pandas as pd
 import datetime
 import os
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import json
+
+# Google Sheets setup
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+
+creds_dict = st.secrets["gcp_service_account"]
+creds = ServiceAccountCredentials.from_json_keyfile_dict(dict(creds_dict), scope)
+
+client = gspread.authorize(creds)
+
+# Open sheet (insert your sheet ID here)
+sheet = client.open_by_key(GOOGLE_SHEET_ID = st.secrets["sheet_id"]).sheet1
 
 names = ["Anelle", "Carlo", "Amber", "Romain", "Tjark", "Other"]
 
 # Load trip data
-file_path = "trips.csv"
-if os.path.exists(file_path):
-    df = pd.read_csv(file_path)
-else:
-    df = pd.DataFrame(columns=[
-        "Date", "Trip Date", "Name", "Driven km", "Refuel", "Member", 
-        "KM Rate", "Extra Fee", "Total", "Note"
-    ])
+data = sheet.get_all_records()
+df = pd.DataFrame(data)
 
 # Pricing (you can update these)
 member_rate = 0.20
@@ -77,8 +85,7 @@ if submitted:
         "Note": note
 
     }
-    df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
-    df.to_csv(file_path, index=False)
+    sheet.append_row(list(new_entry.values()))
     st.success(f"Trip saved! Total cost: €{total}")
 
 if not df.empty:
@@ -100,6 +107,7 @@ if not df.empty:
         )
 
         # Format columns: Total_KM as integer, costs/fees as money
+        # Use Streamlit's default header color for highlighting (approx. "#F0F2F6")
         styled_overview = overview.style.format({
             "Total_KM": "{:.0f}",
             "Driving_Cost": "€{:.2f}",
@@ -107,7 +115,7 @@ if not df.empty:
             "Extra_Fees": "€{:.2f}",
             "Total_Balance": "€{:.2f}"
         }).highlight_between(
-            subset=["Total_Balance"], left=0, right=None, color="#b6b6b6"
+            subset=["Total_Balance"], left=0, right=None, color="#F0F2F6"
         )
 
         st.dataframe(styled_overview)
