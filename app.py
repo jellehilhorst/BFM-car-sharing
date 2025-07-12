@@ -58,11 +58,6 @@ elif st.session_state.step == 3:
         refuel = st.number_input("Refuel cost (€)", step=0.5)
         is_member = st.radio("Are you a member?", ["Yes", "No"])
         submitted = st.form_submit_button("Submit Trip")
-    start_km = st.number_input("Start km", step=1)
-    end_km = st.number_input("End km", step=1)
-    refuel = st.number_input("Refuel cost (€)", step=0.5)
-    is_member = st.radio("Are you a member?", ["Yes", "No"])
-    submitted = st.form_submit_button("Submit Trip")
 
 if submitted:
     distance = end_km - start_km
