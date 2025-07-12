@@ -84,3 +84,18 @@ if submitted:
 if not df.empty:
     st.subheader("📋 Trip History")
     st.dataframe(df)
+
+    if not df.empty:
+        st.subheader("🔎 Member Overview")
+        overview = (
+            df.groupby("Name")
+            .agg(
+                Total_KM=("Driven km", "sum"),
+                Driving_Cost=("Driven km", lambda x: round((df.loc[x.index, "KM Rate"] * x).sum(), 2)),
+                Refuel_Cost=("Refuel", "sum"),
+                Extra_Fees=("Extra Fee", "sum"),
+                Total_Balance=("Total", "sum"),
+            )
+            .reset_index()
+        )
+        st.dataframe(overview)
