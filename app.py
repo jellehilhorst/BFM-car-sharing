@@ -145,14 +145,18 @@ if not df.empty:
     overview = (
         df.groupby("Name")
         .agg(
-        Total_KM=("Driven km", "sum"),
-        Driving_Cost=("Driven km", lambda x: round((df.loc[x.index, "KM Rate"] * x).sum(), 2)),
-        Refuel_Cost=("Refuel", "sum"),
-        Extra_Fees=("Extra Fee", "sum"),
-        Total_Balance=("Total", "sum"),
+            Total_KM=("Driven km", "sum"),
+            Driving_Cost=("Driven km", lambda x: round((df.loc[x.index, "KM Rate"] * x).sum(), 2)),
+            Refuel_Cost=("Refuel", "sum"),
+            Extra_Fees=("Extra Fee", "sum"),
+            Total_Balance=("Total", "sum"),
         )
         .reset_index()
     )
+
+    # Format cost columns as money
+    for col in ["Driving_Cost", "Refuel_Cost", "Extra_Fees", "Total_Balance"]:
+        overview[col] = overview[col].apply(lambda x: f"€{x:.2f}")
 
 
     # Format columns: Total_KM as integer, costs/fees as money
