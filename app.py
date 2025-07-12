@@ -141,7 +141,6 @@ if not df.empty:
     )
 
     # Format columns: Total_KM as integer, costs/fees as money
-    # Use Streamlit's default header color for highlighting (approx. "#F0F2F6")
     styled_overview = overview.style.format({
         "Total_KM": "{:.0f}",
         "Driving_Cost": "€{:.2f}",
@@ -152,7 +151,8 @@ if not df.empty:
         subset=["Total_Balance"], left=0, right=None, color="#F0F2F6"
     )
 
-    st.dataframe(styled_overview)
+    # Show dataframe with Name column pinned (Streamlit 1.29+)
+    st.dataframe(styled_overview, column_config={"Name": st.column_config.Column("Name", pinned=True)})
 
     # history
     st.subheader("📋 Trip History")
