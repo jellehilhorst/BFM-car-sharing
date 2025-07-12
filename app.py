@@ -160,18 +160,18 @@ if not df.empty:
 
 
     # Format columns: Total_KM as integer, costs/fees as money
-    styled_overview = overview.style.format({
-        "Total_KM": "{:.0f}",
-        "Driving_Cost": "€{:.2f}",
-        "Refuel_Cost": "€{:.2f}",
-        "Extra_Fees": "€{:.2f}",
-        "Total_Balance": "€{:.2f}"
-    }).highlight_between(
-        subset=["Total_Balance"], left=0, right=None, color="#F0F2F6"
-    )
+    # styled_overview = overview.style.format({
+    #     "Total_KM": "{:.0f}",
+    #     "Driving_Cost": "€{:.2f}",
+    #     "Refuel_Cost": "€{:.2f}",
+    #     "Extra_Fees": "€{:.2f}",
+    #     "Total_Balance": "€{:.2f}"
+    # }).highlight_between(
+    #     subset=["Total_Balance"], left=0, right=None, color="#F0F2F6"
+    # )
 
     # Show dataframe with Name column pinned (Streamlit 1.29+)
-    st.dataframe(styled_overview, column_config={"Name": st.column_config.Column("Name", pinned=True)})
+    st.dataframe(overviewa, column_config={"Name": st.column_config.Column("Name", pinned=True)})
 
     # history
     st.subheader("📋 Trip History")
