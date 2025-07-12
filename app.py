@@ -94,7 +94,6 @@ elif st.session_state.step == 3:
             km_rate = member_rate if is_member == "Yes" else non_member_rate
             extra_fee = 0 if is_member == "Yes" else non_member_fee
             total = round(driven_km * km_rate + refuel + extra_fee, 2)
-            st.write(f"KM Rate: {km_rate}, Driven KM: {driven_km}, Total: {total}")
 
             new_entry = {
                 "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -110,7 +109,7 @@ elif st.session_state.step == 3:
             }
             sheet.append_row(list(new_entry.values()))
             
-            # st.session_state.step = 4
+            st.session_state.step = 4
             st.rerun()
             st.success(f"Trip saved! Total cost: €{total}")
             
