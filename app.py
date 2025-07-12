@@ -22,7 +22,7 @@ client = gspread.authorize(creds)
 
 
 # Open sheet (insert your sheet ID here)
-sheet = client.open_by_key(GOOGLE_SHEET_ID = st.secrets["sheet_id"]).sheet1
+sheet = client.open_by_key(st.secrets["sheet_id"]).sheet1
 
 names = ["Anelle", "Carlo", "Amber", "Romain", "Tjark", "Other"]
 
