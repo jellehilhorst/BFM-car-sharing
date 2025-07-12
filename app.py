@@ -99,7 +99,7 @@ elif st.session_state.step == 3:
 
         
 
-if st.session_state.step == 4:
+elif st.session_state.step == 4:
     
     st.info("What would you like to do next?")
     col1, col2 = st.columns(2)
