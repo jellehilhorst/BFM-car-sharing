@@ -124,37 +124,38 @@ elif st.session_state.step == 4:
                 st.rerun()
 
 if not df.empty:
+    # overview
+    st.subheader("🔎 Member Overview")
+    # Sort df by Trip Date before grouping
+    df
+
+    overview = (
+        df.groupby("Name")
+        .agg(
+        Total_KM=("Driven km", "sum"),
+        Driving_Cost=("Driven km", lambda x: round((df_sorted.loc[x.index, "KM Rate"] * x).sum(), 2)),
+        Refuel_Cost=("Refuel", "sum"),
+        Extra_Fees=("Extra Fee", "sum"),
+        Total_Balance=("Total", "sum"),
+        )
+        .reset_index()
+    )
+
+    # Format columns: Total_KM as integer, costs/fees as money
+    # Use Streamlit's default header color for highlighting (approx. "#F0F2F6")
+    styled_overview = overview.style.format({
+        "Total_KM": "{:.0f}",
+        "Driving_Cost": "€{:.2f}",
+        "Refuel_Cost": "€{:.2f}",
+        "Extra_Fees": "€{:.2f}",
+        "Total_Balance": "€{:.2f}"
+    }).highlight_between(
+        subset=["Total_Balance"], left=0, right=None, color="#F0F2F6"
+    )
+
+    st.dataframe(styled_overview)
+
+    # history
     st.subheader("📋 Trip History")
-    st.dataframe(df)
-
-    if not df.empty:
-        st.subheader("🔎 Member Overview")
-        # Sort df by Trip Date before grouping
-        df_sorted = df.sort_values(by="Date", ascending=False)
-
-        overview = (
-            df_sorted.groupby("Name")
-            .agg(
-            Total_KM=("Driven km", "sum"),
-            Driving_Cost=("Driven km", lambda x: round((df_sorted.loc[x.index, "KM Rate"] * x).sum(), 2)),
-            Refuel_Cost=("Refuel", "sum"),
-            Extra_Fees=("Extra Fee", "sum"),
-            Total_Balance=("Total", "sum"),
-            )
-            .reset_index()
-        )
-
-        # Format columns: Total_KM as integer, costs/fees as money
-        # Use Streamlit's default header color for highlighting (approx. "#F0F2F6")
-        styled_overview = overview.style.format({
-            "Total_KM": "{:.0f}",
-            "Driving_Cost": "€{:.2f}",
-            "Refuel_Cost": "€{:.2f}",
-            "Extra_Fees": "€{:.2f}",
-            "Total_Balance": "€{:.2f}"
-        }).highlight_between(
-            subset=["Total_Balance"], left=0, right=None, color="#F0F2F6"
-        )
-
-        st.dataframe(styled_overview)
-    
+    df_sorted = df.sort_values(by="Date", ascending=False)
+    st.dataframe(df_sorted)
