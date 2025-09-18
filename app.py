@@ -96,9 +96,14 @@ elif st.session_state.step == 3:
         
         refuel = st.number_input("Refuel cost (€)", step=0.5)
         note = st.text_area("Note (optional)")
-        submitted = st.form_submit_button("Submit Trip")
-
-        
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            submitted = st.form_submit_button("Submit Trip", type="primary")
+        with col2:
+            back = st.form_submit_button("Back")
+        if back:
+            st.session_state.step = 1
+            st.rerun()
         
         
         if submitted:
