@@ -75,10 +75,8 @@ elif st.session_state.step == "transfer_money":
         names_in_df = sorted(df["Name"].unique())
         col1, col2, col3 = st.columns([1, 1, 1])
         with col1:
-            st.write("From")
             from_name = st.selectbox("From", names_in_df, key="from_name")
         with col2:
-            st.write("To")
             to_name = st.selectbox("To", names_in_df, key="to_name")
         with col3:
             amount = st.number_input("Amount (€)", min_value=0.0, step=1, key="transfer_amount")
