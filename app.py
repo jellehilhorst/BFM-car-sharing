@@ -66,9 +66,9 @@ elif st.session_state.step == 2:
         name = st.text_input("Enter a different name")
         col1, col2 = st.columns([1, 1])
         with col1:
-            back = st.form_submit_button("Back")
-        with col2:
             next_step = st.form_submit_button("Next")
+        with col2:
+            back = st.form_submit_button("Back")
         if back:
             st.session_state.step = 1
             st.rerun()
