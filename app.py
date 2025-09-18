@@ -167,16 +167,18 @@ if not df.empty:
     )
 
     # Format columns: Driven km as integer, costs/fees as money
+    def color_total_balance(val):
+        color = "#006400" if val >= 0 else "#8B0000"  # dark green or dark red
+        return f"color: {color}"
+
     styled_overview = overview.style.format({
         "Driven km": "{:.0f}",
         "Driving cost": "€{:.2f}",
         "Refuel cost": "€{:.2f}",
         "Extra fees": "€{:.2f}",
         "Total balance": "€{:.2f}"
-    }).highlight_between(
-        subset=["Total balance"], left=0, right=None, color="#F0F2F6"
-    )
-
+    }).applymap(color_total_balance, subset=["Total balance"])
+    
     # Show dataframe with Name column pinned (Streamlit 1.29+)
     st.dataframe(styled_overview, column_config={"Name": st.column_config.Column("Name", pinned=True)})
 
