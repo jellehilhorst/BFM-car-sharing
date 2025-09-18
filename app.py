@@ -73,8 +73,8 @@ elif st.session_state.step == "transfer_money":
     with st.form("transfer_form"):
         st.write("Transfer money from one member to another")
         names_in_df = sorted(df["Name"].unique())
-        # amount = st.number_input("Amount (€)", min_value=0.0, step=1, key="transfer_amount")
-        driven_km = st.number_input("Driven km", step=1)
+        amount = st.number_input("Amount (€)", min_value=0.0, step=1)
+        # driven_km = st.number_input("Driven km", step=1)
         col1, col2 = st.columns([1, 1])
         with col1:
             from_name = st.selectbox("From", names_in_df, key="from_name")
