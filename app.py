@@ -53,8 +53,8 @@ if st.session_state.step == 1:
         next_step = st.form_submit_button("Next")
         if next_step:
             if selected_name == "Other":
-                st.session_state.step = 2
                 st.session_state.is_member = "No"
+                st.session_state.step = 2
             else:
                 st.session_state.name = selected_name
                 st.session_state.is_member = "Yes"
@@ -66,7 +66,8 @@ elif st.session_state.step == 2:
         name = st.text_input("Enter a different name")
         next_step = st.form_submit_button("Next")
         if next_step and name:
-            st.session_state.name = name
+            clean_name = name.strip().replace(" ", "").lower().capitalize()
+            st.session_state.name = clean_name
             st.session_state.step = 3
             st.rerun()
 
