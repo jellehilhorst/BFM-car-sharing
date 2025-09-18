@@ -64,7 +64,14 @@ if st.session_state.step == 1:
 elif st.session_state.step == 2:
     with st.form("other_name_form"):
         name = st.text_input("Enter a different name")
-        next_step = st.form_submit_button("Next")
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            back = st.form_submit_button("Back")
+        with col2:
+            next_step = st.form_submit_button("Next")
+        if back:
+            st.session_state.step = 1
+            st.rerun()
         if next_step and name:
             clean_name = name.strip().replace(" ", "").lower().capitalize()
             st.session_state.name = clean_name
