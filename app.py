@@ -50,7 +50,14 @@ if "step" not in st.session_state:
 if st.session_state.step == 1:
     with st.form("name_form"):
         selected_name = st.selectbox("Name", names)
-        next_step = st.form_submit_button("Next")
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            next_step = st.form_submit_button("Next")
+        with col2:
+            transfer_money = st.form_submit_button("Transfer Money")
+        if transfer_money:
+            st.session_state.step = "transfer_money"
+            st.rerun()
         if next_step:
             if selected_name == "Other":
                 st.session_state.is_member = "No"
@@ -61,6 +68,50 @@ if st.session_state.step == 1:
                 st.session_state.step = 3
             st.rerun()
 
+# transfer money
+elif st.session_state.step == "transfer_money":
+    with st.form("transfer_form"):
+        st.write("Transfer money from one member to another")
+        names_in_df = sorted(df["Name"].unique())
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col1:
+            st.write("From")
+            from_name = st.selectbox("From", names_in_df, key="from_name")
+        with col2:
+            st.write("To")
+            to_name = st.selectbox("To", names_in_df, key="to_name")
+        with col3:
+            amount = st.number_input("Amount (€)", min_value=0.0, step=1, key="transfer_amount")
+        submit_transfer = st.form_submit_button("Submit Transfer")
+        back = st.form_submit_button("Back")
+        if back:
+            st.session_state.step = 1
+            st.rerun()
+        if submit_transfer and from_name and to_name and amount > 0 and from_name != to_name:
+            amsterdam_tz = pytz.timezone("Europe/Amsterdam")
+            now_amsterdam = datetime.datetime.now(amsterdam_tz)
+            transfer_entry = {
+                "Date": now_amsterdam.strftime("%Y-%m-%d %H:%M"),
+                "Trip Date": "",
+                "Name": from_name,
+                "Driven km": 0,
+                "Refuel": 0,
+                "Member": "",
+                "KM Rate": 0,
+                "Extra Fee": 0,
+                "Total": -amount,
+                "Note": f"Transfer to {to_name}"
+            }
+            sheet.append_row(list(transfer_entry.values()))
+            transfer_entry["Name"] = to_name
+            transfer_entry["Total"] = amount
+            transfer_entry["Note"] = f"Transfer from {from_name}"
+            sheet.append_row(list(transfer_entry.values()))
+            st.success(f"Transferred €{amount:.2f} from {from_name} to {to_name}.")
+            st.session_state.step = 1
+            st.rerun()
+
+# other name
 elif st.session_state.step == 2:
     with st.form("other_name_form"):
         name = st.text_input("Enter a different name")
