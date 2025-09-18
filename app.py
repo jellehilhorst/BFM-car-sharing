@@ -52,7 +52,7 @@ if st.session_state.step == 1:
         selected_name = st.selectbox("Name", names)
         col1, col2 = st.columns([1, 1])
         with col1:
-            next_step = st.form_submit_button("Next")
+            next_step = st.form_submit_button("Next", type="primary")
         with col2:
             transfer_money = st.form_submit_button("Transfer Money")
         if transfer_money:
@@ -81,7 +81,7 @@ elif st.session_state.step == "transfer_money":
         with col2:
             to_name = st.selectbox("To", names_in_df, key="to_name")
             
-        submit_transfer = st.form_submit_button("Submit Transfer")
+        submit_transfer = st.form_submit_button("Submit Transfer", type="primary")
         back = st.form_submit_button("Back")
         
         if back:
