@@ -147,6 +147,9 @@ elif st.session_state.step == 3:
         
         refuel = st.number_input("Refuel cost (€)", step=0.5)
         note = st.text_area("Note (optional)")
+        odometer = st.text_input("Odometer (last 4 digits)", max_chars=4)
+        if odometer and (not odometer.isdigit() or len(odometer) != 4):
+            st.warning("Please enter exactly 4 digits.")
         col1, col2 = st.columns([1, 1])
         with col1:
             submitted = st.form_submit_button("Submit Trip", type="primary")
@@ -175,7 +178,8 @@ elif st.session_state.step == 3:
                 "KM Rate": km_rate,
                 "Extra Fee": extra_fee,
                 "Total": total,
-                "Note": note
+                "Note": note,
+                "Odometer": odometer
             }
             sheet.append_row(list(new_entry.values()))
             
