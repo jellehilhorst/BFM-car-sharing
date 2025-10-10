@@ -170,7 +170,7 @@ elif st.session_state.step == 3:
             now_amsterdam = datetime.datetime.now(amsterdam_tz)
             new_entry = {
                 "Date": now_amsterdam.strftime("%Y-%m-%d %H:%M"),
-                "Trip Date": trip_date.strftime("%Y-%m-%d"),
+                "Trip Date": trip_date.strftime("%d-%m-%Y"),
                 "Name": name,
                 "Driven km": driven_km,
                 "Refuel": refuel,
